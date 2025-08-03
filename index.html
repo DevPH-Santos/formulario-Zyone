@@ -75,6 +75,13 @@
 
             <div class="form-group">
 
+                <label>Complemento</label>
+                <input type="text" id="complemento" name="complemento" placeholder="Apartamento 2" required>
+
+            </div>
+
+            <div class="form-group">
+
                 <label>Crie um nome de usuário</label>
                 <input type="text" name="usuario" placeholder="Digite seu nome de usuário" required>
 
@@ -92,13 +99,26 @@
         </form>
 
         <div id="enviarDados">
+            <div class="success-check">
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                </svg>
+            </div>
 
-            <span>Concluído com sucesso</span>
+            <span class="status">Concluído com sucesso</span>
 
             <h1>Deseja enviar seus dados?</h1>
 
-            <a href="" target="_blank" id="linkDados">Enviar dados</a>
+            <p class="description">Seus dados foram processados com sucesso. Clique no botão abaixo para confirmar o
+                envio.</p>
 
+            <button id="btnDados">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zm17 2l-6.5 3.33L5 8v2l6.5 3.33L19 10V8zm0 6l-6.5-3.33L5 14v2l6.5 3.33L19 16v-2z" />
+                </svg>
+                Enviar dados
+                </a>
         </div>
 
     </main>
@@ -107,7 +127,119 @@
         <p>&copy;2025 Zyone Cosméticos. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+
+        const formulario = document.getElementById('formulario')
+        const enviarDados = document.getElementById('enviarDados')
+        const btnDados = document.getElementById('btnDados')
+        const cepInput = document.getElementById('cep');
+        const enderecoInput = document.getElementById('endereco');
+
+        // Inicializa EmailJS
+        (function () {
+            emailjs.init("iArOc2TEu0F9kovWp"); // Substitua pela sua Public Key
+        })();
+
+        document.getElementById('formulario').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            formulario.style.display = 'none'
+            enviarDados.style.display = 'flex'
+
+            btnDados.addEventListener('click', function () {
+                emailjs.sendForm('service_3lmbyw8', 'template_9a2cw1b', formulario)
+                    .then(function (response) {
+                        console.log('Sucesso!', response.status, response.text);
+                        alert('Cadastro enviado com sucesso!');
+                    }, function (error) {
+                        console.log('Falha ao enviar:', error);
+                        alert('Erro ao enviar. Tente novamente.');
+                    });
+
+                formulario.reset();
+            });
+
+        })
+
+        document.getElementById('telefone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '')
+
+            if (value.length > 0) {
+                value = '(' + value
+
+                if (value.length > 3) {
+                    value = value.substring(0, 3) + ') ' + value.substring(3)
+                }
+
+                if (value.length > 10) {
+                    value = value.substring(0, 10) + '-' + value.substring(10)
+                }
+
+                if (value.length > 15) {
+                    value = value.substring(0, 15)
+                }
+            }
+
+            e.target.value = value
+        })
+
+        document.getElementById('cpf').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '')
+
+            value = value.substring(0, 11)
+
+            if (value.length > 0) {
+
+                if (value.length > 3) {
+                    value = value.substring(0, 3) + '.' + value.substring(3)
+                }
+                if (value.length > 7) {
+                    value = value.substring(0, 7) + '.' + value.substring(7)
+                }
+                if (value.length > 11) {
+                    value = value.substring(0, 11) + '-' + value.substring(11)
+                }
+            }
+
+            e.target.value = value
+        })
+
+        cepInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '')
+
+            if (value.length > 5) {
+                value = value.slice(0, 5) + '-' + value.slice(5, 8)
+            }
+
+            e.target.value = value.slice(0, 9)
+        })
+
+        cepInput.addEventListener('blur', function () {
+            const cepLimpo = cepInput.value.replace(/\D/g, '')
+
+            if (cepLimpo.length !== 8) {
+                alert("CEP inválido. Digite os 8 dígitos.")
+                return
+            }
+
+            fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert("CEP não encontrado.")
+                        return
+                    }
+
+                    enderecoInput.value = `${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`
+                })
+                .catch(() => {
+                    alert("Erro ao buscar o endereço. Tente novamente.")
+                })
+        })
+
+    </script>
+
 
 </body>
 
