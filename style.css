@@ -35,6 +35,11 @@ header {
     text-align: center;
 }
 
+.banner{
+    width: 40%;
+    border-radius: 12px;
+}
+
 .brand-name {
     color: var(--dourado);
     font-size: 3rem;
