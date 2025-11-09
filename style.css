@@ -4,6 +4,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border: none;
+    outline: none;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -91,7 +93,6 @@ select {
 
 input:focus,
 select:focus {
-    outline: none;
     border-color: var(--dourado);
     box-shadow: 0 0 0 2px rgba(174, 137, 55, 0.3);
 }
@@ -107,7 +108,6 @@ input::placeholder {
     margin-top: 2rem;
     background-color: var(--dourado);
     color: var(--branco);
-    border: none;
     border-radius: 6px;
     font-size: 1rem;
     font-weight: 600;

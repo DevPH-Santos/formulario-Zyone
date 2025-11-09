@@ -54,7 +54,7 @@
             <div class="form-group">
 
                 <label>Data de Nascimento</label>
-                <input type="date" name="dataNasc" required>
+                <input type="text" name="dataNasc" maxlength="10" id="dataNasc" required>
 
             </div>
 
@@ -204,6 +204,23 @@
 
             e.target.value = value
         })
+
+        document.getElementById('dataNasc').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+            value = value.substring(0, 8); // Limita a 8 dígitos (DDMMAAAA)
+
+            if (value.length > 0) {
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2); // Adiciona primeira barra
+                }
+                if (value.length > 4) {
+                    value = value.substring(0, 5) + '/' + value.substring(5); // Adiciona segunda barra
+                }
+            }
+
+            e.target.value = value; // Atualiza o campo com a formatação
+        });
+
 
         cepInput.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '')
