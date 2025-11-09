@@ -36,7 +36,7 @@ header {
 }
 
 .banner{
-    width: 40%;
+    max-width: 550px;
     border-radius: 12px;
 }
 
@@ -231,7 +231,7 @@ footer {
     opacity: 0.6;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 630px) {
     .brand-name {
         font-size: 2.2rem;
     }
@@ -244,4 +244,9 @@ footer {
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
     }
+
+    .banner{
+        width: 400px;
+    }
+
 }
