@@ -67,10 +67,31 @@
 
             </div>
 
-            <div class="form-group">
+            <!--<div class="form-group">
 
                 <label>Endereço Completo</label>
                 <input type="text" id="endereco" name="endereco" placeholder="Digite seu endereço completo" required>
+
+            </div>-->
+
+            <div class="form-group">
+
+                <label>Bairro</label>
+                <input type="text" id="bairro" name="bairro" placeholder="Digite nome do bairro" required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Rua</label>
+                <input type="text" id="rua" name="rua" placeholder="Digite nome da rua" required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Cidade</label>
+                <input type="text" id="cidade" name="cidade" placeholder="Digite nome da cidade" required>
 
             </div>
 
@@ -131,133 +152,143 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
 
-        const formulario = document.getElementById('formulario')
-        const enviarDados = document.getElementById('enviarDados')
-        const btnDados = document.getElementById('btnDados')
-        const cepInput = document.getElementById('cep');
-        const enderecoInput = document.getElementById('endereco');
+        document.addEventListener("DOMContentLoaded", () => {
 
-        // Inicializa EmailJS
-        (function () {
-            emailjs.init("iArOc2TEu0F9kovWp"); // Substitua pela sua Public Key
-        })();
+            const formulario = document.getElementById('formulario')
+            const enviarDados = document.getElementById('enviarDados')
+            const btnDados = document.getElementById('btnDados')
+            const cepInput = document.getElementById('cep');
+            //const enderecoInput = document.getElementById('endereco');
 
-        document.getElementById('formulario').addEventListener('submit', function (e) {
-            e.preventDefault();
+                // Inicializa EmailJS
+                (function () {
+                    emailjs.init("iArOc2TEu0F9kovWp"); // Substitua pela sua Public Key
+                })();
 
-            formulario.style.display = 'none'
-            enviarDados.style.display = 'flex'
+            document.getElementById('formulario').addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            btnDados.addEventListener('click', function () {
-                emailjs.sendForm('service_3lmbyw8', 'template_9a2cw1b', formulario)
-                    .then(function (response) {
-                        console.log('Sucesso!', response.status, response.text);
-                        alert('Cadastro enviado com sucesso!');
-                    }, function (error) {
-                        console.log('Falha ao enviar:', error);
-                        alert('Erro ao enviar. Tente novamente.');
-                    });
+                formulario.style.display = 'none'
+                enviarDados.style.display = 'flex'
 
-                formulario.reset();
-            });
+                btnDados.addEventListener('click', function () {
+                    emailjs.sendForm('service_3lmbyw8', 'template_9a2cw1b', formulario)
+                        .then(function (response) {
+                            console.log('Sucesso!', response.status, response.text);
+                            alert('Cadastro enviado com sucesso!');
+                        }, function (error) {
+                            console.log('Falha ao enviar:', error);
+                            alert('Erro ao enviar. Tente novamente.');
+                        });
 
-        })
+                    formulario.reset();
+                });
 
-        document.getElementById('telefone').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '')
+            })
 
-            if (value.length > 0) {
-                value = '(' + value
+            document.getElementById('telefone').addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '')
 
-                if (value.length > 3) {
-                    value = value.substring(0, 3) + ') ' + value.substring(3)
-                }
+                if (value.length > 0) {
+                    value = '(' + value
 
-                if (value.length > 10) {
-                    value = value.substring(0, 10) + '-' + value.substring(10)
-                }
-
-                if (value.length > 15) {
-                    value = value.substring(0, 15)
-                }
-            }
-
-            e.target.value = value
-        })
-
-        document.getElementById('cpf').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '')
-
-            value = value.substring(0, 11)
-
-            if (value.length > 0) {
-
-                if (value.length > 3) {
-                    value = value.substring(0, 3) + '.' + value.substring(3)
-                }
-                if (value.length > 7) {
-                    value = value.substring(0, 7) + '.' + value.substring(7)
-                }
-                if (value.length > 11) {
-                    value = value.substring(0, 11) + '-' + value.substring(11)
-                }
-            }
-
-            e.target.value = value
-        })
-
-        document.getElementById('dataNasc').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
-            value = value.substring(0, 8); // Limita a 8 dígitos (DDMMAAAA)
-
-            if (value.length > 0) {
-                if (value.length > 2) {
-                    value = value.substring(0, 2) + '/' + value.substring(2); // Adiciona primeira barra
-                }
-                if (value.length > 4) {
-                    value = value.substring(0, 5) + '/' + value.substring(5); // Adiciona segunda barra
-                }
-            }
-
-            e.target.value = value; // Atualiza o campo com a formatação
-        });
-
-
-        cepInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '')
-
-            if (value.length > 5) {
-                value = value.slice(0, 5) + '-' + value.slice(5, 8)
-            }
-
-            e.target.value = value.slice(0, 9)
-        })
-
-        cepInput.addEventListener('blur', function () {
-            const cepLimpo = cepInput.value.replace(/\D/g, '')
-
-            if (cepLimpo.length !== 8) {
-                alert("CEP inválido. Digite os 8 dígitos.")
-                return
-            }
-
-            fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.erro) {
-                        alert("CEP não encontrado.")
-                        return
+                    if (value.length > 3) {
+                        value = value.substring(0, 3) + ') ' + value.substring(3)
                     }
 
-                    enderecoInput.value = `${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`
-                })
-                .catch(() => {
-                    alert("Erro ao buscar o endereço. Tente novamente.")
-                })
-        })
+                    if (value.length > 10) {
+                        value = value.substring(0, 10) + '-' + value.substring(10)
+                    }
+
+                    if (value.length > 15) {
+                        value = value.substring(0, 15)
+                    }
+                }
+
+                e.target.value = value
+            })
+
+            document.getElementById('cpf').addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '')
+
+                value = value.substring(0, 11)
+
+                if (value.length > 0) {
+
+                    if (value.length > 3) {
+                        value = value.substring(0, 3) + '.' + value.substring(3)
+                    }
+                    if (value.length > 7) {
+                        value = value.substring(0, 7) + '.' + value.substring(7)
+                    }
+                    if (value.length > 11) {
+                        value = value.substring(0, 11) + '-' + value.substring(11)
+                    }
+                }
+
+                e.target.value = value
+            })
+
+            document.getElementById('dataNasc').addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+                value = value.substring(0, 8); // Limita a 8 dígitos (DDMMAAAA)
+
+                if (value.length > 0) {
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2); // Adiciona primeira barra
+                    }
+                    if (value.length > 4) {
+                        value = value.substring(0, 5) + '/' + value.substring(5); // Adiciona segunda barra
+                    }
+                }
+
+                e.target.value = value; // Atualiza o campo com a formatação
+            });
+
+
+            cepInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+
+                if (value.length > 5) {
+                    value = value.slice(0, 5) + '-' + value.slice(5, 8);
+                }
+
+                e.target.value = value.substring(0, 9);
+            });
+
+            cepInput.addEventListener('blur', function () {
+                const cepLimpo = cepInput.value.replace(/\D/g, '');
+
+                if (cepLimpo.length !== 8) {
+                    alert("CEP inválido. Digite os 8 dígitos.");
+                    return;
+                }
+
+                fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.erro) {
+                            alert("CEP não encontrado.");
+                            return;
+                        }
+
+                        //enderecoInput.value = `${data.logradouro}, ${data.localidade} - ${data.uf}`
+
+                        document.getElementById('bairro').value = `${data.bairro}`
+                        
+                        document.getElementById('rua').value = `${data.logradouro}`
+
+                        document.getElementById('cidade').value = `${data.localidade} - ${data.uf}`
+                        
+                    })
+                    .catch(() => {
+                        alert("Erro ao buscar endereço. Tente novamente.");
+                    });
+            });
+
+        });
 
     </script>
-
 
 </body>
 
