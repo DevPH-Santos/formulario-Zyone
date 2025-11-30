@@ -97,7 +97,7 @@
 
             <div class="form-group">
 
-                <label>Complemento</label>
+                <label>Complemento e número</label>
                 <input type="text" id="complemento" name="complemento" placeholder="Apartamento 2" required>
 
             </div>
@@ -158,7 +158,8 @@
             const enviarDados = document.getElementById('enviarDados')
             const btnDados = document.getElementById('btnDados')
             const cepInput = document.getElementById('cep');
-            //const enderecoInput = document.getElementById('endereco');
+            const numeroComplemento = document.getElementById('numeroComplemento')
+                //const enderecoInput = document.getElementById('endereco');
 
                 // Inicializa EmailJS
                 (function () {
@@ -275,11 +276,11 @@
                         //enderecoInput.value = `${data.logradouro}, ${data.localidade} - ${data.uf}`
 
                         document.getElementById('bairro').value = `${data.bairro}`
-                        
+
                         document.getElementById('rua').value = `${data.logradouro}`
 
                         document.getElementById('cidade').value = `${data.localidade} - ${data.uf}`
-                        
+
                     })
                     .catch(() => {
                         alert("Erro ao buscar endereço. Tente novamente.");
