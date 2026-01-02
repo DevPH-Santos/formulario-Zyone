@@ -217,6 +217,10 @@ input::placeholder {
     fill: currentColor;
 }
 
+#interesse option{
+    background-color: var(--cinza-escuro);
+}
+
 @keyframes fadeInUp {
     to {
         opacity: 1;

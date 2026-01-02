@@ -67,13 +67,6 @@
 
             </div>
 
-            <!--<div class="form-group">
-
-                <label>Endereço Completo</label>
-                <input type="text" id="endereco" name="endereco" placeholder="Digite seu endereço completo" required>
-
-            </div>-->
-
             <div class="form-group">
 
                 <label>Bairro</label>
@@ -104,15 +97,17 @@
 
             <div class="form-group">
 
-                <label>Crie um nome de usuário</label>
-                <input type="text" name="usuario" placeholder="Digite seu nome de usuário" required>
+                <label for="interesse">Qual seu principal interesse na ZYONE</label>
+                <select id="interesse" aria-placeholder="Selecione">
 
-            </div>
+                    <option value="" selected disabled>Selecione</option>
+                    <option value="consumir">Consumir produtos</option>
+                    <option value="revender">Revender produtos</option>
+                    <option value="construir">Construir equipe de vendas</option>
+                    <option value="todas">Todas as opções</option>
 
-            <div class="form-group">
-
-                <label>Crie uma senha</label>
-                <input type="password" name="senha" placeholder="Digite sua senha" required>
+                </select>
+                <input type="hidden" name="interesse" id="interesseTexto">
 
             </div>
 
@@ -154,140 +149,114 @@
 
         document.addEventListener("DOMContentLoaded", () => {
 
+            /* =====================
+               ELEMENTOS
+            ====================== */
             const formulario = document.getElementById('formulario')
             const enviarDados = document.getElementById('enviarDados')
             const btnDados = document.getElementById('btnDados')
-            const cepInput = document.getElementById('cep');
-            const numeroComplemento = document.getElementById('numeroComplemento')
-                //const enderecoInput = document.getElementById('endereco');
 
-                // Inicializa EmailJS
-                (function () {
-                    emailjs.init("iArOc2TEu0F9kovWp"); // Substitua pela sua Public Key
-                })();
+            const telefone = document.getElementById('telefone')
+            const cpf = document.getElementById('cpf')
+            const dataNasc = document.getElementById('dataNasc')
+            const cepInput = document.getElementById('cep')
+            const selectInteresse = document.getElementById('interesse')
+            const interesseTexto = document.getElementById('interesseTexto')
 
-            document.getElementById('formulario').addEventListener('submit', function (e) {
-                e.preventDefault();
+            emailjs.init("iArOc2TEu0F9kovWp")
+
+            formulario.addEventListener('submit', (e) => {
+                e.preventDefault()
+
+                const textoInteresse =
+                    selectInteresse.options[selectInteresse.selectedIndex].text
+
+                interesseTexto.value = textoInteresse
 
                 formulario.style.display = 'none'
                 enviarDados.style.display = 'flex'
-
-                btnDados.addEventListener('click', function () {
-                    emailjs.sendForm('service_3lmbyw8', 'template_9a2cw1b', formulario)
-                        .then(function (response) {
-                            console.log('Sucesso!', response.status, response.text);
-                            alert('Cadastro enviado com sucesso!');
-                        }, function (error) {
-                            console.log('Falha ao enviar:', error);
-                            alert('Erro ao enviar. Tente novamente.');
-                        });
-
-                    formulario.reset();
-                });
-
             })
 
-            document.getElementById('telefone').addEventListener('input', function (e) {
-                let value = e.target.value.replace(/\D/g, '')
-
-                if (value.length > 0) {
-                    value = '(' + value
-
-                    if (value.length > 3) {
-                        value = value.substring(0, 3) + ') ' + value.substring(3)
-                    }
-
-                    if (value.length > 10) {
-                        value = value.substring(0, 10) + '-' + value.substring(10)
-                    }
-
-                    if (value.length > 15) {
-                        value = value.substring(0, 15)
-                    }
-                }
-
-                e.target.value = value
-            })
-
-            document.getElementById('cpf').addEventListener('input', function (e) {
-                let value = e.target.value.replace(/\D/g, '')
-
-                value = value.substring(0, 11)
-
-                if (value.length > 0) {
-
-                    if (value.length > 3) {
-                        value = value.substring(0, 3) + '.' + value.substring(3)
-                    }
-                    if (value.length > 7) {
-                        value = value.substring(0, 7) + '.' + value.substring(7)
-                    }
-                    if (value.length > 11) {
-                        value = value.substring(0, 11) + '-' + value.substring(11)
-                    }
-                }
-
-                e.target.value = value
-            })
-
-            document.getElementById('dataNasc').addEventListener('input', function (e) {
-                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
-                value = value.substring(0, 8); // Limita a 8 dígitos (DDMMAAAA)
-
-                if (value.length > 0) {
-                    if (value.length > 2) {
-                        value = value.substring(0, 2) + '/' + value.substring(2); // Adiciona primeira barra
-                    }
-                    if (value.length > 4) {
-                        value = value.substring(0, 5) + '/' + value.substring(5); // Adiciona segunda barra
-                    }
-                }
-
-                e.target.value = value; // Atualiza o campo com a formatação
-            });
-
-
-            cepInput.addEventListener('input', function (e) {
-                let value = e.target.value.replace(/\D/g, '');
-
-                if (value.length > 5) {
-                    value = value.slice(0, 5) + '-' + value.slice(5, 8);
-                }
-
-                e.target.value = value.substring(0, 9);
-            });
-
-            cepInput.addEventListener('blur', function () {
-                const cepLimpo = cepInput.value.replace(/\D/g, '');
-
-                if (cepLimpo.length !== 8) {
-                    alert("CEP inválido. Digite os 8 dígitos.");
-                    return;
-                }
-
-                fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.erro) {
-                            alert("CEP não encontrado.");
-                            return;
-                        }
-
-                        //enderecoInput.value = `${data.logradouro}, ${data.localidade} - ${data.uf}`
-
-                        document.getElementById('bairro').value = `${data.bairro}`
-
-                        document.getElementById('rua').value = `${data.logradouro}`
-
-                        document.getElementById('cidade').value = `${data.localidade} - ${data.uf}`
-
+            btnDados.addEventListener('click', () => {
+                emailjs.sendForm(
+                    'service_3lmbyw8',
+                    'template_9a2cw1b',
+                    formulario
+                )
+                    .then(() => {
+                        alert('Cadastro enviado com sucesso!')
+                        limparFormulario()
                     })
-                    .catch(() => {
-                        alert("Erro ao buscar endereço. Tente novamente.");
-                    });
-            });
+                    .catch(() => alert('Erro ao enviar.'))
+            })
 
-        });
+            // TELEFONE
+            telefone.addEventListener('input', () => {
+                let v = telefone.value.replace(/\D/g, '').substring(0, 11)
+
+                if (v.length > 6) {
+                    v = v.replace(/^(\d{2})(\d{5})(\d+)/, '($1) $2-$3')
+                } else if (v.length > 2) {
+                    v = v.replace(/^(\d{2})(\d+)/, '($1) $2')
+                } else if (v.length > 0) {
+                    v = '(' + v
+                }
+
+                telefone.value = v
+            })
+
+            // CPF
+            cpf.addEventListener('input', () => {
+                let v = cpf.value.replace(/\D/g, '').substring(0, 11)
+
+                if (v.length > 9) v = v.replace(/^(\d{9})(\d+)/, '$1-$2')
+                if (v.length > 6) v = v.replace(/^(\d{6})(\d+)/, '$1.$2')
+                if (v.length > 3) v = v.replace(/^(\d{3})(\d+)/, '$1.$2')
+
+                cpf.value = v
+            })
+
+            // DATA NASCIMENTO
+            dataNasc.addEventListener('input', () => {
+                let v = dataNasc.value.replace(/\D/g, '').substring(0, 8)
+
+                if (v.length > 4) v = v.replace(/^(\d{2})(\d{2})(\d+)/, '$1/$2/$3')
+                else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, '$1/$2')
+
+                dataNasc.value = v
+            })
+
+            // CEP
+            cepInput.addEventListener('input', () => {
+                let v = cepInput.value.replace(/\D/g, '').substring(0, 8)
+                if (v.length > 5) v = v.replace(/^(\d{5})(\d+)/, '$1-$2')
+                cepInput.value = v
+            })
+
+            cepInput.addEventListener('blur', () => {
+                const cep = cepInput.value.replace(/\D/g, '')
+                if (cep.length !== 8) return alert('CEP inválido')
+
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.erro) return alert('CEP não encontrado')
+
+                        document.getElementById('bairro').value = data.bairro
+                        document.getElementById('rua').value = data.logradouro
+                        document.getElementById('cidade').value =
+                            `${data.localidade} - ${data.uf}`
+                    })
+                    .catch(() => alert('Erro ao buscar CEP'))
+            })
+
+            function limparFormulario() {
+                formulario.reset()
+                enviarDados.style.display = 'none'
+                formulario.style.display = 'block'
+            }
+
+        })
 
     </script>
 
