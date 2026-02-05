@@ -82,14 +82,14 @@
             </div>
 
             <div class="form-group">
-                
+
                 <label>Complemento</label>
                 <input type="text" id="complemento" name="complemento" placeholder="Casa / Bloco" required>
 
             </div>
 
             <div class="form-group">
-                
+
                 <label>Número da casa</label>
                 <input type="text" id="numeroCasa" name="numeroCasa" placeholder="145" required>
 
@@ -118,6 +118,13 @@
 
             </div>
 
+            <div class="form-group">
+
+                <small>Você gostaria de participar do grupo de promoções da Zyone?</small>
+                <input type="checkbox" name="participarGrupo" id="entrarGrupo">
+
+            </div>
+
             <button type="submit" class="submit-btn">Finalizar</button>
 
         </form>
@@ -142,7 +149,17 @@
                         d="M2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zm17 2l-6.5 3.33L5 8v2l6.5 3.33L19 10V8zm0 6l-6.5-3.33L5 14v2l6.5 3.33L19 16v-2z" />
                 </svg>
                 Enviar dados
-                </a>
+            </button>
+
+            <div class="entrarGrupoWhats">
+
+                <img src="logo.png" alt="">
+
+                <h3>ZYONE COSMÉTICOS | AVISOS</h3>
+                <a href="https://chat.whatsapp.com/JmAy64gd4xw6b5TIcTuXA0?mode=gi_t">Entrar no grupo</a>
+
+            </div>
+
         </div>
 
     </main>
@@ -151,7 +168,6 @@
         <p>&copy;2025 Zyone Cosméticos. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -169,8 +185,18 @@
             const cepInput = document.getElementById('cep')
             const selectInteresse = document.getElementById('interesse')
             const interesseTexto = document.getElementById('interesseTexto')
+            const entrarGrupo = document.getElementById('entrarGrupo')
+            const entrarGrupoWhats = document.getElementsByClassName('entrarGrupoWhats')[0]
 
-            emailjs.init("iArOc2TEu0F9kovWp")
+            const aparecerEntrarGrupo = () => {
+                if (entrarGrupo.checked) {
+                    entrarGrupoWhats.style.display = 'block'
+                }else {
+                    entrarGrupoWhats.style.display = 'none'
+                }
+            }
+
+            entrarGrupo.addEventListener('change', aparecerEntrarGrupo)
 
             formulario.addEventListener('submit', (e) => {
                 e.preventDefault()
@@ -185,17 +211,37 @@
             })
 
             btnDados.addEventListener('click', () => {
-                emailjs.sendForm(
-                    'service_3lmbyw8',
-                    'template_9a2cw1b',
-                    formulario
-                )
-                    .then(() => {
-                        alert('Cadastro enviado com sucesso!')
-                        limparFormulario()
-                    })
-                    .catch(() => alert('Erro ao enviar.'))
+
+                const formData = new FormData(formulario)
+
+                const mensagem =
+                    `NOVO CADASTRO - ZYONE COSMÉTICOS
+
+Nome: ${formData.get('nomeCompleto')}
+CPF: ${formData.get('cpf')}
+Telefone: ${formData.get('telefone')}
+E-mail: ${formData.get('email')}
+Nascimento: ${formData.get('dataNasc')}
+
+ENDEREÇO
+CEP: ${formData.get('cep')}
+Bairro: ${formData.get('bairro')}
+Rua: ${formData.get('rua')}
+Número: ${formData.get('numeroCasa')}
+Complemento: ${formData.get('complemento')}
+Cidade: ${formData.get('cidade')}
+
+Interesse: ${formData.get('interesse')}`
+
+                const mensagemCodificada = encodeURIComponent(mensagem)
+
+                const numeroWhatsApp = '5519987250886' // coloque o número real aqui
+
+                const url = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`
+
+                window.open(url, '_blank')
             })
+
 
             // TELEFONE
             telefone.addEventListener('input', () => {
