@@ -105,7 +105,7 @@
             <div class="form-group">
 
                 <label for="interesse">Qual seu principal interesse na ZYONE</label>
-                <select id="interesse" aria-placeholder="Selecione">
+                <select id="interesse" aria-placeholder="Selecione" required>
 
                     <option value="" selected disabled>Selecione</option>
                     <option value="consumir">Consumir produtos</option>
@@ -138,7 +138,7 @@
 
             <span class="status">Concluído com sucesso</span>
 
-            <h1>Deseja enviar seus dados?</h1>
+            <h1 class="titleAgradecimento">Deseja enviar seus dados?</h1>
 
             <p class="description">Seus dados foram processados com sucesso. Clique no botão abaixo para confirmar o
                 envio.</p>
@@ -191,7 +191,7 @@
             const aparecerEntrarGrupo = () => {
                 if (entrarGrupo.checked) {
                     entrarGrupoWhats.style.display = 'block'
-                }else {
+                } else {
                     entrarGrupoWhats.style.display = 'none'
                 }
             }
@@ -212,7 +212,7 @@
 
             btnDados.addEventListener('click', () => {
 
-                const formData = new FormData(formulario)
+                const formData = new FormData(formulario);
 
                 const mensagem =
                     `NOVO CADASTRO - ZYONE COSMÉTICOS
@@ -231,16 +231,27 @@ Número: ${formData.get('numeroCasa')}
 Complemento: ${formData.get('complemento')}
 Cidade: ${formData.get('cidade')}
 
-Interesse: ${formData.get('interesse')}`
+Interesse: ${formData.get('interesse')}`;
 
-                const mensagemCodificada = encodeURIComponent(mensagem)
+                const mensagemCodificada = encodeURIComponent(mensagem);
+                const numeroWhatsApp = '5519987250886';
+                const url = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
 
-                const numeroWhatsApp = '5519987250886' // coloque o número real aqui
+                // ABRE IMEDIATAMENTE (não bloqueia)
+                window.open(url, '_blank');
 
-                const url = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`
+                // Depois altera a interface
+                setTimeout(() => {
+                    document.querySelector('.titleAgradecimento').innerHTML = 'Oi, sou o Laianderson Farias!'
+                    document.querySelector('.titleAgradecimento').style.color = "#AE8937"
+                    document.querySelector('.titleAgradecimento').style.textDecoration = "underline"
+                    
+                    document.querySelector('.description').innerHTML = "Foi um prazer imenso ter você por aqui. Muito obrigado pela confiança e por fazer parte da minha base de clientes! <br><br>Em breve entrarei em contato para conversarmos melhor."
+                    document.querySelector('.description').style.color = "white"
 
-                window.open(url, '_blank')
-            })
+                }, 1000);
+
+            });
 
 
             // TELEFONE
