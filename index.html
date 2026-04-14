@@ -12,10 +12,7 @@
 <body>
 
     <header>
-
-        <!--<h1 class="brand-name">Zyone Cosméticos</h1>-->
         <img src="banners/bannerSimples.jpeg" class="banner" alt="">
-
     </header>
 
     <main class="form-container">
@@ -25,139 +22,140 @@
             <h2 class="form-title">Cadastro de Cliente</h2>
 
             <div class="form-group">
-
                 <label>Nome Completo</label>
                 <input type="text" name="nomeCompleto" placeholder="Digite seu nome completo" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>CPF</label>
                 <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Telefone</label>
                 <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>E-mail</label>
                 <input type="email" name="email" placeholder="seu@email.com" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Data de Nascimento</label>
                 <input type="text" name="dataNasc" maxlength="10" id="dataNasc" required>
-
             </div>
 
-
             <div class="form-group">
-
                 <label>CEP</label>
                 <input type="text" id="cep" name="cep" maxlength="9" placeholder="Digite o seu CEP" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Bairro</label>
                 <input type="text" id="bairro" name="bairro" placeholder="Digite nome do bairro" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Rua</label>
                 <input type="text" id="rua" name="rua" placeholder="Digite nome da rua" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Complemento</label>
                 <input type="text" id="complemento" name="complemento" placeholder="Casa / Bloco" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Número da casa</label>
                 <input type="text" id="numeroCasa" name="numeroCasa" placeholder="145" required>
-
             </div>
 
             <div class="form-group">
-
                 <label>Cidade</label>
                 <input type="text" id="cidade" name="cidade" placeholder="Digite nome da cidade" required>
-
             </div>
 
             <div class="form-group">
-
                 <label for="interesse">Qual seu principal interesse na ZYONE</label>
-                <select id="interesse" aria-placeholder="Selecione" required>
-
+                <select id="interesse" required>
                     <option value="" selected disabled>Selecione</option>
                     <option value="consumir">Consumir produtos</option>
                     <option value="revender">Revender produtos</option>
                     <option value="construir">Construir equipe de vendas</option>
                     <option value="todas">Todas as opções</option>
-
                 </select>
                 <input type="hidden" name="interesse" id="interesseTexto">
-
             </div>
 
             <div class="form-group">
-
                 <small>Você gostaria de participar do grupo de promoções da Zyone?</small>
                 <input type="checkbox" name="participarGrupo" id="entrarGrupo">
-
             </div>
 
             <button type="submit" class="submit-btn">Finalizar</button>
 
         </form>
 
+        <!-- TELA DE CONFIRMAÇÃO -->
         <div id="enviarDados">
-            <div class="success-check">
-                <svg viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                </svg>
+
+            <!-- Estado 1: aguardando envio -->
+            <div id="estadoPendente">
+                <div class="aviso-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                </div>
+
+                <span class="status pendente">⚡ Quase lá!</span>
+
+                <h1 class="titleAgradecimento">Um último passo!</h1>
+
+                <p class="description">
+                    Seus dados foram preenchidos com sucesso.<br>
+                    <strong>Clique no botão abaixo para confirmar e enviar seu cadastro.</strong>
+                </p>
+
+                <div class="contador-wrap">
+                    <p class="contador-texto">Enviando automaticamente em <span id="contagem">10</span>s</p>
+                    <div class="contador-barra">
+                        <div class="contador-progresso" id="contadorProgresso"></div>
+                    </div>
+                </div>
+
+                <button id="btnDados" class="btn-enviar-pulse">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Confirmar e enviar cadastro
+                </button>
+
+                <button id="btnCancelar" class="btn-cancelar">Voltar e editar dados</button>
             </div>
 
-            <span class="status">Concluído com sucesso</span>
+            <!-- Estado 2: enviado com sucesso -->
+            <div id="estadoSucesso" style="display:none; flex-direction:column; align-items:center; gap:2rem; width:100%;">
+                <div class="success-check">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                    </svg>
+                </div>
 
-            <h1 class="titleAgradecimento">Deseja enviar seus dados?</h1>
+                <span class="status">✅ Cadastro enviado!</span>
 
-            <p class="description">Seus dados foram processados com sucesso. Clique no botão abaixo para confirmar o
-                envio.</p>
+                <h1 class="titleAgradecimento" id="tituloSucesso">Oi, sou o Laianderson Farias!</h1>
 
-            <button id="btnDados">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zm17 2l-6.5 3.33L5 8v2l6.5 3.33L19 10V8zm0 6l-6.5-3.33L5 14v2l6.5 3.33L19 16v-2z" />
-                </svg>
-                Enviar dados
-            </button>
+                <p class="description" id="descricaoSucesso">
+                    Foi um prazer imenso ter você por aqui. Muito obrigado pela confiança e por fazer parte da minha base de clientes!<br><br>
+                    Em breve entrarei em contato para conversarmos melhor.
+                </p>
 
-            <div class="entrarGrupoWhats">
-
-                <img src="logo.png" alt="">
-
-                <h3>ZYONE COSMÉTICOS | AVISOS</h3>
-                <a href="https://chat.whatsapp.com/JmAy64gd4xw6b5TIcTuXA0?mode=gi_t">Entrar no grupo</a>
-
+                <div class="entrarGrupoWhats" id="entrarGrupoWhats">
+                    <img src="logo.png" alt="">
+                    <h3>ZYONE COSMÉTICOS | AVISOS</h3>
+                    <a href="https://chat.whatsapp.com/JmAy64gd4xw6b5TIcTuXA0?mode=gi_t" target="_blank">Entrar no grupo</a>
+                </div>
             </div>
 
         </div>
@@ -172,50 +170,35 @@
 
         document.addEventListener("DOMContentLoaded", () => {
 
-            /* =====================
-               ELEMENTOS
-            ====================== */
-            const formulario = document.getElementById('formulario')
-            const enviarDados = document.getElementById('enviarDados')
-            const btnDados = document.getElementById('btnDados')
+            const formulario       = document.getElementById('formulario')
+            const enviarDados      = document.getElementById('enviarDados')
+            const btnDados         = document.getElementById('btnDados')
+            const btnCancelar      = document.getElementById('btnCancelar')
+            const estadoPendente   = document.getElementById('estadoPendente')
+            const estadoSucesso    = document.getElementById('estadoSucesso')
+            const entrarGrupoWhats = document.getElementById('entrarGrupoWhats')
+            const contagem         = document.getElementById('contagem')
+            const contadorProgresso = document.getElementById('contadorProgresso')
 
-            const telefone = document.getElementById('telefone')
-            const cpf = document.getElementById('cpf')
-            const dataNasc = document.getElementById('dataNasc')
-            const cepInput = document.getElementById('cep')
+            const telefone     = document.getElementById('telefone')
+            const cpf          = document.getElementById('cpf')
+            const dataNasc     = document.getElementById('dataNasc')
+            const cepInput     = document.getElementById('cep')
             const selectInteresse = document.getElementById('interesse')
-            const interesseTexto = document.getElementById('interesseTexto')
-            const entrarGrupo = document.getElementById('entrarGrupo')
-            const entrarGrupoWhats = document.getElementsByClassName('entrarGrupoWhats')[0]
+            const interesseTexto  = document.getElementById('interesseTexto')
+            const entrarGrupo     = document.getElementById('entrarGrupo')
 
-            const aparecerEntrarGrupo = () => {
-                if (entrarGrupo.checked) {
-                    entrarGrupoWhats.style.display = 'block'
-                } else {
-                    entrarGrupoWhats.style.display = 'none'
-                }
-            }
+            let timerAutoEnvio = null
+            let segundos = 10
 
-            entrarGrupo.addEventListener('change', aparecerEntrarGrupo)
+            // ─── Monta a mensagem e abre o WhatsApp ───────────────────
+            function enviarParaWhatsApp() {
+                clearInterval(timerAutoEnvio)
 
-            formulario.addEventListener('submit', (e) => {
-                e.preventDefault()
-
-                const textoInteresse =
-                    selectInteresse.options[selectInteresse.selectedIndex].text
-
-                interesseTexto.value = textoInteresse
-
-                formulario.style.display = 'none'
-                enviarDados.style.display = 'flex'
-            })
-
-            btnDados.addEventListener('click', () => {
-
-                const formData = new FormData(formulario);
+                const formData = new FormData(formulario)
 
                 const mensagem =
-                    `NOVO CADASTRO - ZYONE COSMÉTICOS
+`NOVO CADASTRO - ZYONE COSMÉTICOS
 
 Nome: ${formData.get('nomeCompleto')}
 CPF: ${formData.get('cpf')}
@@ -231,66 +214,89 @@ Número: ${formData.get('numeroCasa')}
 Complemento: ${formData.get('complemento')}
 Cidade: ${formData.get('cidade')}
 
-Interesse: ${formData.get('interesse')}`;
+Interesse: ${formData.get('interesse')}`
 
-                const mensagemCodificada = encodeURIComponent(mensagem);
-                const numeroWhatsApp = '5519987250886';
-                const url = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+                const url = `https://wa.me/5519987250886?text=${encodeURIComponent(mensagem)}`
+                window.open(url, '_blank')
 
-                // ABRE IMEDIATAMENTE (não bloqueia)
-                window.open(url, '_blank');
+                // Mostra estado de sucesso
+                estadoPendente.style.display = 'none'
+                estadoSucesso.style.display   = 'flex'
 
-                // Depois altera a interface
-                setTimeout(() => {
-                    document.querySelector('.titleAgradecimento').innerHTML = 'Oi, sou o Laianderson Farias!'
-                    document.querySelector('.titleAgradecimento').style.color = "#AE8937"
-                    document.querySelector('.titleAgradecimento').style.textDecoration = "underline"
-                    
-                    document.querySelector('.description').innerHTML = "Foi um prazer imenso ter você por aqui. Muito obrigado pela confiança e por fazer parte da minha base de clientes! <br><br>Em breve entrarei em contato para conversarmos melhor."
-                    document.querySelector('.description').style.color = "white"
+                // Mostra bloco do grupo apenas se marcou checkbox
+                entrarGrupoWhats.style.display = entrarGrupo.checked ? 'block' : 'none'
+            }
 
-                }, 1000);
+            // ─── Inicia contador regressivo ────────────────────────────
+            function iniciarContador() {
+                segundos = 10
+                contagem.textContent = segundos
+                contadorProgresso.style.transition = 'none'
+                contadorProgresso.style.width = '100%'
 
-            });
+                // Força reflow para reiniciar a transição
+                contadorProgresso.offsetWidth
 
+                contadorProgresso.style.transition = `width ${segundos}s linear`
+                contadorProgresso.style.width = '0%'
 
-            // TELEFONE
+                timerAutoEnvio = setInterval(() => {
+                    segundos--
+                    contagem.textContent = segundos
+                    if (segundos <= 0) {
+                        clearInterval(timerAutoEnvio)
+                        enviarParaWhatsApp()
+                    }
+                }, 1000)
+            }
+
+            // ─── Submit do formulário ──────────────────────────────────
+            formulario.addEventListener('submit', (e) => {
+                e.preventDefault()
+
+                interesseTexto.value =
+                    selectInteresse.options[selectInteresse.selectedIndex].text
+
+                formulario.style.display = 'none'
+                enviarDados.style.display = 'flex'
+
+                iniciarContador()
+            })
+
+            // ─── Botão confirmar ───────────────────────────────────────
+            btnDados.addEventListener('click', enviarParaWhatsApp)
+
+            // ─── Botão cancelar / voltar ───────────────────────────────
+            btnCancelar.addEventListener('click', () => {
+                clearInterval(timerAutoEnvio)
+                enviarDados.style.display = 'none'
+                formulario.style.display  = 'block'
+            })
+
+            // ─── Máscaras ──────────────────────────────────────────────
             telefone.addEventListener('input', () => {
                 let v = telefone.value.replace(/\D/g, '').substring(0, 11)
-
-                if (v.length > 6) {
-                    v = v.replace(/^(\d{2})(\d{5})(\d+)/, '($1) $2-$3')
-                } else if (v.length > 2) {
-                    v = v.replace(/^(\d{2})(\d+)/, '($1) $2')
-                } else if (v.length > 0) {
-                    v = '(' + v
-                }
-
+                if (v.length > 6)      v = v.replace(/^(\d{2})(\d{5})(\d+)/, '($1) $2-$3')
+                else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, '($1) $2')
+                else if (v.length > 0) v = '(' + v
                 telefone.value = v
             })
 
-            // CPF
             cpf.addEventListener('input', () => {
                 let v = cpf.value.replace(/\D/g, '').substring(0, 11)
-
                 if (v.length > 9) v = v.replace(/^(\d{9})(\d+)/, '$1-$2')
                 if (v.length > 6) v = v.replace(/^(\d{6})(\d+)/, '$1.$2')
                 if (v.length > 3) v = v.replace(/^(\d{3})(\d+)/, '$1.$2')
-
                 cpf.value = v
             })
 
-            // DATA NASCIMENTO
             dataNasc.addEventListener('input', () => {
                 let v = dataNasc.value.replace(/\D/g, '').substring(0, 8)
-
-                if (v.length > 4) v = v.replace(/^(\d{2})(\d{2})(\d+)/, '$1/$2/$3')
+                if (v.length > 4)      v = v.replace(/^(\d{2})(\d{2})(\d+)/, '$1/$2/$3')
                 else if (v.length > 2) v = v.replace(/^(\d{2})(\d+)/, '$1/$2')
-
                 dataNasc.value = v
             })
 
-            // CEP
             cepInput.addEventListener('input', () => {
                 let v = cepInput.value.replace(/\D/g, '').substring(0, 8)
                 if (v.length > 5) v = v.replace(/^(\d{5})(\d+)/, '$1-$2')
@@ -305,25 +311,16 @@ Interesse: ${formData.get('interesse')}`;
                     .then(res => res.json())
                     .then(data => {
                         if (data.erro) return alert('CEP não encontrado')
-
                         document.getElementById('bairro').value = data.bairro
-                        document.getElementById('rua').value = data.logradouro
-                        document.getElementById('cidade').value =
-                            `${data.localidade} - ${data.uf}`
+                        document.getElementById('rua').value    = data.logradouro
+                        document.getElementById('cidade').value = `${data.localidade} - ${data.uf}`
                     })
                     .catch(() => alert('Erro ao buscar CEP'))
             })
-
-            function limparFormulario() {
-                formulario.reset()
-                enviarDados.style.display = 'none'
-                formulario.style.display = 'block'
-            }
 
         })
 
     </script>
 
 </body>
-
 </html>
