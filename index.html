@@ -117,12 +117,12 @@
                     <strong>Clique no botão abaixo para confirmar e enviar seu cadastro.</strong>
                 </p>
 
-                <div class="contador-wrap">
+                <!-- <div class="contador-wrap">
                     <p class="contador-texto">Enviando automaticamente em <span id="contagem">10</span>s</p>
                     <div class="contador-barra">
                         <div class="contador-progresso" id="contadorProgresso"></div>
                     </div>
-                </div>
+                </div> -->
 
                 <button id="btnDados" class="btn-enviar-pulse">
                     <svg viewBox="0 0 24 24">
@@ -177,8 +177,8 @@
             const estadoPendente   = document.getElementById('estadoPendente')
             const estadoSucesso    = document.getElementById('estadoSucesso')
             const entrarGrupoWhats = document.getElementById('entrarGrupoWhats')
-            const contagem         = document.getElementById('contagem')
-            const contadorProgresso = document.getElementById('contadorProgresso')
+            /*const contagem         = document.getElementById('contagem')
+            const contadorProgresso = document.getElementById('contadorProgresso')*/
 
             const telefone     = document.getElementById('telefone')
             const cpf          = document.getElementById('cpf')
@@ -188,12 +188,12 @@
             const interesseTexto  = document.getElementById('interesseTexto')
             const entrarGrupo     = document.getElementById('entrarGrupo')
 
-            let timerAutoEnvio = null
-            let segundos = 10
+            //let timerAutoEnvio = null
+            //let segundos = 10
 
             // ─── Monta a mensagem e abre o WhatsApp ───────────────────
             function enviarParaWhatsApp() {
-                clearInterval(timerAutoEnvio)
+                //clearInterval(timerAutoEnvio)
 
                 const formData = new FormData(formulario)
 
@@ -228,27 +228,27 @@ Interesse: ${formData.get('interesse')}`
             }
 
             // ─── Inicia contador regressivo ────────────────────────────
-            function iniciarContador() {
-                segundos = 10
-                contagem.textContent = segundos
-                contadorProgresso.style.transition = 'none'
-                contadorProgresso.style.width = '100%'
+            // function iniciarContador() {
+            //     segundos = 10
+            //     contagem.textContent = segundos
+            //     contadorProgresso.style.transition = 'none'
+            //     contadorProgresso.style.width = '100%'
 
-                // Força reflow para reiniciar a transição
-                contadorProgresso.offsetWidth
+            //     // Força reflow para reiniciar a transição
+            //     contadorProgresso.offsetWidth
 
-                contadorProgresso.style.transition = `width ${segundos}s linear`
-                contadorProgresso.style.width = '0%'
+            //     contadorProgresso.style.transition = `width ${segundos}s linear`
+            //     contadorProgresso.style.width = '0%'
 
-                timerAutoEnvio = setInterval(() => {
-                    segundos--
-                    contagem.textContent = segundos
-                    if (segundos <= 0) {
-                        clearInterval(timerAutoEnvio)
-                        enviarParaWhatsApp()
-                    }
-                }, 1000)
-            }
+            //     timerAutoEnvio = setInterval(() => {
+            //         segundos--
+            //         contagem.textContent = segundos
+            //         if (segundos <= 0) {
+            //             clearInterval(timerAutoEnvio)
+            //             enviarParaWhatsApp()
+            //         }
+            //     }, 1000)
+            // }
 
             // ─── Submit do formulário ──────────────────────────────────
             formulario.addEventListener('submit', (e) => {
